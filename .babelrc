@@ -1,0 +1,15 @@
+{
+  "presets": [
+    "react-native",
+    "babel-preset-expo"
+  ],
+  "plugins": [
+    [
+      "import",
+      {
+        "libraryName": "antd-mobile"
+      }
+    ]
+  ],
+  "env": {}
+}

@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "allowJs": true,
+    "jsx": "react",
+    "outDir": "./dist",
+    "sourceMap": true,
+    "noImplicitAny": false
+  },
+  "include": ["typings/**/*.d.ts", "src/**/*.js"],
+  "exclude": ["node_modules"]
+}
