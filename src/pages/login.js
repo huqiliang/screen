@@ -1,22 +1,37 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, Div, TextInput } from "react-native";
-import { List, InputItem, Button, Flex } from "antd-mobile";
-// import { createForm } from "rc-form";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Div,
+  TextInput,
+  PixelRatio
+} from "react-native";
+import { List, InputItem, Button, Flex, Toast } from "antd-mobile";
+import axios from "axios";
 
 export default class Login extends Component {
   constructor() {
     super();
     this.state = {
-      hotelCode: ""
+      hotelCode: "GCBZG",
+      loading: false
     };
   }
-  hotelCodeChange() {
-    this.setState({
-      hotelCode: "ddd"
-    });
-  }
-  pullPage() {
-    // todo 拉取远程数据
+  async pullPage() {
+    if (!this.state.loading) {
+      this.setState({
+        loading: true
+      });
+      let res = await axios.get(
+        "http://facebook.github.io/react-native/movies.json"
+      );
+      console.log(res);
+
+      this.setState({
+        loading: false
+      });
+    }
   }
   render() {
     return (
@@ -24,19 +39,30 @@ export default class Login extends Component {
         <List style={styles.list}>
           <InputItem
             labelNumber="5"
-            style={styles.list}
+            style={styles.input}
             clear
+            focus
             placeholder="请输入酒店代码"
-            onChange={e => {
-              this.hotelCodeChange;
+            value={this.state.hotelCode}
+            onChange={value => {
+              this.setState({
+                hotelCode: value
+              });
             }}
           >
             酒店代码:
           </InputItem>
         </List>
-        <View style={styles.button}>
-          <Button type="primary" onClick={this.pullPage}>
-            确定
+        <View style={styles.btContain}>
+          <Button
+            loading={this.state.loading}
+            disabled={this.state.loading}
+            onClick={this.pullPage.bind(this)}
+            type="primary"
+          >
+            <Text style={{ color: "#fff" }}>
+              {!!this.state.loading ? "获取数据" : "确定"}
+            </Text>
           </Button>
         </View>
       </View>
@@ -52,9 +78,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5FCFF"
   },
   list: {
-    width: "50%"
+    width: "50%",
+    borderColor: "#ccc",
+    borderRadius: 1 / PixelRatio.get(),
+    borderWidth: 1 / PixelRatio.get()
   },
-  button: {
+  input: {
+    width: "100%",
+    paddingRight: "5%"
+  },
+  btContain: {
     marginTop: "5%"
   }
 });
