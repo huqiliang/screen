@@ -5,7 +5,8 @@ import {
   StyleSheet,
   Div,
   TextInput,
-  PixelRatio
+  PixelRatio,
+  AsyncStorage
 } from "react-native";
 import { List, InputItem, Button, Flex, Toast } from "antd-mobile";
 import axios from "axios";
@@ -18,15 +19,20 @@ export default class Login extends Component {
       loading: false
     };
   }
+  // save(item, value) {}
   async pullPage() {
     if (!this.state.loading) {
       this.setState({
         loading: true
       });
       let res = await axios.get(
-        "http://facebook.github.io/react-native/movies.json"
+        "http://gcbzg.testwebsite.gcihotel.net/order/brand?hotelCode=gcbz"
       );
       console.log(res);
+      storage.save({
+        key: "usedTemplate", // 注意:请不要在key中使用_下划线符号!
+        data: res.data
+      });
 
       this.setState({
         loading: false

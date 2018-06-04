@@ -1,33 +1,22 @@
 import React, { Component } from "react";
-import { Platform, StyleSheet, Text, View } from "react-native";
-import { NavigationAction } from "react-native-deprecated-custom-components";
+import { YellowBox } from "react-native";
+import { createDrawerNavigator } from "react-navigation";
+import globalStorage from "./lib/storage";
+
+import Main from "./pages/main";
 import Login from "./pages/login";
+import Screen from "./pages/screen";
 
-export default class App extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Login />
-      </View>
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F5FCFF"
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: "center",
-    margin: 10
-  },
-  instructions: {
-    textAlign: "center",
-    color: "#333333",
-    marginBottom: 5
-  }
+const App = createDrawerNavigator({
+  Screen: { screen: Screen },
+  Login: { screen: Login },
+  Main: { screen: Main }
 });
+
+globalStorage();
+
+YellowBox.ignoreWarnings([
+  "Warning: isMounted(...) is deprecated",
+  "Module RCTImageLoader"
+]);
+export default App;
