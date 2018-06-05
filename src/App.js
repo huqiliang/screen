@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { YellowBox } from "react-native";
 import { createDrawerNavigator } from "react-navigation";
-import globalStorage from "./lib/storage";
+import "./lib/storage";
 
 import Main from "./pages/main";
 import Login from "./pages/login";
@@ -12,8 +12,6 @@ const App = createDrawerNavigator({
   Login: { screen: Login },
   Main: { screen: Main }
 });
-
-globalStorage();
 
 YellowBox.ignoreWarnings([
   "Warning: isMounted(...) is deprecated",

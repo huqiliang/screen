@@ -20,7 +20,4 @@ var storage = new Storage({
   sync: require("../server/syncStorage")
 });
 
-// 对于react native
-export default () => {
-  global.storage = storage;
-};
+global.storage = storage;

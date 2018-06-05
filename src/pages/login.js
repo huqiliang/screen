@@ -5,8 +5,7 @@ import {
   StyleSheet,
   Div,
   TextInput,
-  PixelRatio,
-  AsyncStorage
+  PixelRatio
 } from "react-native";
 import { List, InputItem, Button, Flex, Toast } from "antd-mobile";
 import axios from "axios";
@@ -21,6 +20,8 @@ export default class Login extends Component {
   }
   // save(item, value) {}
   async pullPage() {
+    const { navigate } = this.props.navigation;
+
     if (!this.state.loading) {
       this.setState({
         loading: true
@@ -28,15 +29,23 @@ export default class Login extends Component {
       let res = await axios.get(
         "http://gcbzg.testwebsite.gcihotel.net/order/brand?hotelCode=gcbz"
       );
-      console.log(res);
-      storage.save({
-        key: "usedTemplate", // 注意:请不要在key中使用_下划线符号!
-        data: res.data
-      });
 
-      this.setState({
-        loading: false
-      });
+      if (res.status == 200) {
+        storage.save({
+          key: "usedTemplate", // 注意:请不要在key中使用_下划线符号!
+          data: res.data
+        });
+
+        this.setState({
+          loading: false
+        });
+        navigate("Screen");
+      } else {
+        Toast(res.data);
+        this.setState({
+          loading: false
+        });
+      }
     }
   }
   render() {
