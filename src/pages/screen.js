@@ -5,7 +5,7 @@ export default class screen extends Component {
   constructor() {
     super();
     this.state = {
-      html: ""
+      html: "no template is choosed"
     };
   }
   async componentWillMount() {

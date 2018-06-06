@@ -6,10 +6,12 @@ import "./lib/storage";
 import Main from "./pages/main";
 import Login from "./pages/login";
 import Screen from "./pages/screen";
+import Choose from "./pages/choose";
 
 const App = createDrawerNavigator({
-  Screen: { screen: Screen },
   Login: { screen: Login },
+  Choose: { screen: Choose },
+  Screen: { screen: Screen },
   Main: { screen: Main }
 });
 

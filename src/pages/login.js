@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import { List, InputItem, Button, Flex, Toast } from "antd-mobile";
 import axios from "axios";
+// Add a request interceptor
+axios.defaults.timeout = 1000;
 
 export default class Login extends Component {
   constructor() {
@@ -18,7 +20,6 @@ export default class Login extends Component {
       loading: false
     };
   }
-  // save(item, value) {}
   async pullPage() {
     const { navigate } = this.props.navigation;
 
@@ -26,26 +27,25 @@ export default class Login extends Component {
       this.setState({
         loading: true
       });
-      let res = await axios.get(
-        "http://gcbzg.testwebsite.gcihotel.net/order/brand?hotelCode=gcbz"
-      );
-
-      if (res.status == 200) {
-        storage.save({
-          key: "usedTemplate", // 注意:请不要在key中使用_下划线符号!
-          data: res.data
-        });
-
-        this.setState({
-          loading: false
-        });
-        navigate("Screen");
-      } else {
-        Toast(res.data);
-        this.setState({
-          loading: false
-        });
+      try {
+        fetch(
+          "http://115.159.43.44:82/api/cms/category/codeViews.json?code=ad&hotelGroupCode=FWHLG&hotelCode=0"
+        )
+          .then(async res => {
+            alert(JSON.stringify(res));
+            if (!!res.ok) {
+              //Toast(res);
+            }
+          })
+          .catch(error => {
+            alerte(error);
+          });
+      } catch (error) {
+        alert(error);
       }
+      this.setState({
+        loading: false
+      });
     }
   }
   render() {
@@ -76,7 +76,7 @@ export default class Login extends Component {
             type="primary"
           >
             <Text style={{ color: "#fff" }}>
-              {!!this.state.loading ? "获取数据" : "确定"}
+              {!!this.state.loading ? "授权校验" : "确定"}
             </Text>
           </Button>
         </View>
