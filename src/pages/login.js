@@ -8,9 +8,8 @@ import {
   PixelRatio
 } from "react-native";
 import { List, InputItem, Button, Flex, Toast } from "antd-mobile";
-import axios from "axios";
-// Add a request interceptor
-axios.defaults.timeout = 1000;
+import DeviceInfo from "react-native-device-info";
+alert(DeviceInfo.getUniqueID());
 
 export default class Login extends Component {
   constructor() {
@@ -32,9 +31,8 @@ export default class Login extends Component {
           "http://115.159.43.44:82/api/cms/category/codeViews.json?code=ad&hotelGroupCode=FWHLG&hotelCode=0"
         )
           .then(async res => {
-            alert(JSON.stringify(res));
             if (!!res.ok) {
-              //Toast(res);
+              navigate("Choose");
             }
           })
           .catch(error => {
