@@ -1,43 +1,42 @@
 import React, { Component } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Div,
-  TextInput,
-  PixelRatio
-} from "react-native";
-import { List, InputItem, Button, Flex, Toast } from "antd-mobile";
+import { View, Text, StyleSheet, Dimensions, PixelRatio } from "react-native";
+import { List, InputItem, Button, Flex, Toast, Modal } from "antd-mobile";
 import DeviceInfo from "react-native-device-info";
-import { RNFS, DocumentDirectoryPath } from "react-native-fs";
+import RNFS from "react-native-fs";
 import { zip, unzip } from "react-native-zip-archive";
+import { AnimatedCircularProgress } from "react-native-circular-progress";
+
+const { width } = Dimensions.get("window");
 console.log(DeviceInfo.getUniqueID());
 
-const targetPath = `${DocumentDirectoryPath}/myFile.zip`;
-const sourcePath = DocumentDirectoryPath;
+const sourcePath = RNFS.DocumentDirectoryPath;
+const downloadDest = `${sourcePath}/test.txt`;
+
 console.log(sourcePath);
 
-zip(sourcePath, targetPath)
-  .then(path => {
-    console.log(`zip completed at ${path}`);
-  })
-  .catch(error => {
-    console.log(error);
-  });
-unzip(sourcePath, targetPath)
-  .then(path => {
-    console.log(`unzip completed at ${path}`);
-  })
-  .catch(error => {
-    console.log(error);
-  });
+// zip(sourcePath, targetPath)
+//   .then(path => {
+//     console.log(`zip completed at ${path}`);
+//   })
+//   .catch(error => {
+//     console.log(error);
+//   });
+// unzip(sourcePath, targetPath)
+//   .then(path => {
+//     console.log(`unzip completed at ${path}`);
+//   })
+//   .catch(error => {
+//     console.log(error);
+//   });
 
 export default class Login extends Component {
   constructor() {
     super();
     this.state = {
       hotelCode: "GCBZG",
-      loading: false
+      loading: false,
+      progressNum: 0,
+      progressModal: true
     };
   }
   async pullPage() {
@@ -47,17 +46,13 @@ export default class Login extends Component {
         loading: true
       });
       try {
-        fetch(
-          "http://115.159.43.44:82/api/cms/category/codeViews.json?code=ad&hotelGroupCode=FWHLG&hotelCode=0"
-        )
-          .then(async res => {
-            if (!!res.ok) {
-              navigate("Choose");
-            }
-          })
-          .catch(error => {
-            alerte(error);
-          });
+        let oath = await fetch(
+          "http://115.159.43.44:82/api/cms/category/codeViews.json"
+        );
+
+        if (!!oath.ok) {
+          navigate("Choose");
+        }
       } catch (error) {
         alert(error);
       }
@@ -66,6 +61,67 @@ export default class Login extends Component {
       });
     }
   }
+  downloadFile() {
+    // http://wvoice.spriteapp.cn/voice/2015/0902/55e6fc6e4f7b9.mp3
+
+    const formUrl =
+      "http://online.cdn.qianqian.com/qianqian/info/1cab17a3114dab0f3cc4c66f58c6e7fc.dmg";
+
+    const options = {
+      fromUrl: formUrl,
+      toFile: downloadDest,
+      background: true,
+      begin: res => {
+        console.log("begin", res);
+        console.log("contentLength:", res.contentLength / 1024 / 1024, "M");
+      },
+      progress: res => {
+        let pro = res.bytesWritten / res.contentLength;
+
+        this.setState({
+          progressNum: pro
+        });
+      }
+    };
+    try {
+      console.log(options);
+
+      const ret = RNFS.downloadFile(options);
+      ret.promise
+        .then(res => {
+          console.log("success", res);
+          //alert(downloadDest);
+          // this.setState({
+          //   progressNum: 1
+          // });
+          // RNFS.readFile(downloadDest)
+          //   .then(result => {
+          //     console.log(result);
+
+          //     this.setState({
+          //       readTxtResult: result
+          //     });
+          //   })
+          //   .catch(err => {
+          //     console.log(err.message);
+          //   });
+          console.log("file://" + downloadDest);
+        })
+        .catch(err => {
+          console.log("err", err);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  componentWillMount() {
+    //this.downloadFile();
+  }
+  // onClose(name) {
+  //   this.setState({
+  //     [name]: false
+  //   });
+  // }
   render() {
     return (
       <View style={styles.container}>
@@ -97,7 +153,42 @@ export default class Login extends Component {
               {!!this.state.loading ? "授权校验" : "确定"}
             </Text>
           </Button>
+          <Text>{this.state.progressNum}</Text>
         </View>
+        <Modal
+          visible={this.state.progressModal}
+          transparent
+          maskClosable={false}
+          // /onClose={this.onClose("modal1")}
+          title="正在下载 请稍候..."
+          footer={[
+            {
+              text: "Ok",
+              onPress: () => {
+                console.log("ok");
+                //this.onClose("progressModal")();
+              }
+            }
+          ]}
+          wrapProps={{ onTouchStart: this.onWrapTouchStart }}
+        >
+          <View style={styles.animateWapper}>
+            <AnimatedCircularProgress
+              style={styles.progress}
+              size={150}
+              width={10}
+              fill={this.state.progressNum * 100}
+              tintColor="#00e0ff"
+              onAnimationComplete={() => console.log("onAnimationComplete")}
+            >
+              {fill => (
+                <Text style={styles.points}>
+                  {`${Math.trunc(this.state.progressNum.toFixed(2) * 100)}%`}
+                </Text>
+              )}
+            </AnimatedCircularProgress>
+          </View>
+        </Modal>
       </View>
     );
   }
@@ -122,5 +213,14 @@ const styles = StyleSheet.create({
   },
   btContain: {
     marginTop: "5%"
+  },
+  animateWapper: {
+    paddingTop: "10%",
+    paddingBottom: "10%",
+    position: "relative"
+  },
+  progress: {
+    position: "relative",
+    left: "15%"
   }
 });
