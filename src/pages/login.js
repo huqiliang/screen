@@ -9,7 +9,28 @@ import {
 } from "react-native";
 import { List, InputItem, Button, Flex, Toast } from "antd-mobile";
 import DeviceInfo from "react-native-device-info";
+import { RNFS, DocumentDirectoryPath } from "react-native-fs";
+import { zip, unzip } from "react-native-zip-archive";
 console.log(DeviceInfo.getUniqueID());
+
+const targetPath = `${DocumentDirectoryPath}/myFile.zip`;
+const sourcePath = DocumentDirectoryPath;
+console.log(sourcePath);
+
+zip(sourcePath, targetPath)
+  .then(path => {
+    console.log(`zip completed at ${path}`);
+  })
+  .catch(error => {
+    console.log(error);
+  });
+unzip(sourcePath, targetPath)
+  .then(path => {
+    console.log(`unzip completed at ${path}`);
+  })
+  .catch(error => {
+    console.log(error);
+  });
 
 export default class Login extends Component {
   constructor() {
