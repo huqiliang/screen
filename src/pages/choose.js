@@ -9,29 +9,17 @@ import {
   TouchableHighlight,
   Text
 } from "react-native";
+import { imageData } from "../lib/imageData";
 // 引入Dimensions库
-var { width, height } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
 
 export default class Choose extends React.Component {
   state = {
-    imageData: [
-      {
-        img: require("../static/a.png"),
-        name: "a"
-      },
-      {
-        img: require("../static/b.png"),
-        name: "b"
-      },
-      {
-        img: require("../static/c.png"),
-        name: "c"
-      }
-    ]
+    imageData: []
   };
-  componentDidMount() {}
-  // scrollView子视图
-
+  componentDidMount() {
+    this.setState({ imageData: imageData });
+  }
   renderItem() {
     // 数组
     // 获取json中图片
@@ -62,9 +50,7 @@ export default class Choose extends React.Component {
   }
   //选择
   choose(name) {
-    console.log("a");
     const { navigate } = this.props.navigation;
-    console.log(navigate);
     storage.save({ key: "usedTemplate", data: name });
     navigate("Screen");
   }

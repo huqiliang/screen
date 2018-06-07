@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { List, InputItem, Button, Flex, Toast } from "antd-mobile";
 import DeviceInfo from "react-native-device-info";
-alert(DeviceInfo.getUniqueID());
+console.log(DeviceInfo.getUniqueID());
 
 export default class Login extends Component {
   constructor() {
@@ -21,7 +21,6 @@ export default class Login extends Component {
   }
   async pullPage() {
     const { navigate } = this.props.navigation;
-
     if (!this.state.loading) {
       this.setState({
         loading: true
