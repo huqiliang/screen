@@ -36,22 +36,28 @@ export default class Login extends Component {
       hotelCode: "GCBZG",
       loading: false,
       progressNum: 0,
-      progressModal: true
+      progressModal: false
     };
   }
   async pullPage() {
-    const { navigate } = this.props.navigation;
     if (!this.state.loading) {
       this.setState({
         loading: true
       });
       try {
+        // 授权
         let oath = await fetch(
           "http://115.159.43.44:82/api/cms/category/codeViews.json"
         );
 
         if (!!oath.ok) {
-          navigate("Choose");
+          // this.setState({
+          //   progressModal: true
+          // });
+          let df = await RNFS.readFile(downloadDest, "utf8");
+          console.log(df);
+
+          //this.downloadFile();
         }
       } catch (error) {
         alert(error);
@@ -62,8 +68,7 @@ export default class Login extends Component {
     }
   }
   downloadFile() {
-    // http://wvoice.spriteapp.cn/voice/2015/0902/55e6fc6e4f7b9.mp3
-
+    const { navigate } = this.props.navigation;
     const formUrl =
       "http://online.cdn.qianqian.com/qianqian/info/1cab17a3114dab0f3cc4c66f58c6e7fc.dmg";
 
@@ -90,6 +95,10 @@ export default class Login extends Component {
       ret.promise
         .then(res => {
           console.log("success", res);
+          this.setState({
+            progressModal: false
+          });
+          navigate("Choose");
           //alert(downloadDest);
           // this.setState({
           //   progressNum: 1
@@ -114,15 +123,16 @@ export default class Login extends Component {
       console.log(e);
     }
   }
-  componentWillMount() {
-    //this.downloadFile();
-  }
+
   // onClose(name) {
   //   this.setState({
   //     [name]: false
   //   });
   // }
   render() {
+    const title = () => {
+      return <Text style={{ color: "#ffffff" }}>正在下载 请稍候</Text>;
+    };
     return (
       <View style={styles.container}>
         <List style={styles.list}>
@@ -153,28 +163,20 @@ export default class Login extends Component {
               {!!this.state.loading ? "授权校验" : "确定"}
             </Text>
           </Button>
-          <Text>{this.state.progressNum}</Text>
         </View>
         <Modal
+          style={styles.modalStyle}
           visible={this.state.progressModal}
           transparent
           maskClosable={false}
           // /onClose={this.onClose("modal1")}
-          title="正在下载 请稍候..."
-          footer={[
-            {
-              text: "Ok",
-              onPress: () => {
-                console.log("ok");
-                //this.onClose("progressModal")();
-              }
-            }
-          ]}
+          title={title()}
           wrapProps={{ onTouchStart: this.onWrapTouchStart }}
         >
           <View style={styles.animateWapper}>
             <AnimatedCircularProgress
               style={styles.progress}
+              rotation={0}
               size={150}
               width={10}
               fill={this.state.progressNum * 100}
@@ -194,6 +196,9 @@ export default class Login extends Component {
   }
 }
 const styles = StyleSheet.create({
+  modalStyle: {
+    backgroundColor: "#3d5875"
+  },
   container: {
     width: "100%",
     flex: 1,
@@ -215,12 +220,14 @@ const styles = StyleSheet.create({
     marginTop: "5%"
   },
   animateWapper: {
+    width: "100%",
     paddingTop: "10%",
     paddingBottom: "10%",
-    position: "relative"
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "row"
   },
-  progress: {
-    position: "relative",
-    left: "15%"
+  points: {
+    color: "#fff"
   }
 });
