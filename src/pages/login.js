@@ -73,7 +73,7 @@ export default class Login extends Component {
       });
   }
   downloadFile() {
-    const formUrl = "https://www.7-zip.org/a/7za920.zip";
+    const formUrl = "http://localhost";
     const options = {
       fromUrl: formUrl,
       toFile: downloadDest,

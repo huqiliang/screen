@@ -1,17 +1,23 @@
-import React, { Component } from "react";
 import { YellowBox } from "react-native";
 import { createDrawerNavigator } from "react-navigation";
+import { Toast } from "antd-mobile";
 import "./lib/storage";
+import nt from "./lib/netWork";
 
 import Main from "./pages/main";
 import Login from "./pages/login";
 import Screen from "./pages/screen";
 import Choose from "./pages/choose";
 
+nt.checkNetworkState(function(connect) {
+  if (connect) {
+    Toast.info(nt.NOT_NETWORK);
+  }
+});
 const App = createDrawerNavigator({
-  Choose: { screen: Choose },
-  Login: { screen: Login },
   Screen: { screen: Screen },
+  Login: { screen: Login },
+  Choose: { screen: Choose },
   Main: { screen: Main }
 });
 

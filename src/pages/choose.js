@@ -11,7 +11,7 @@ import { Toast, Modal } from "antd-mobile";
 import { imageData } from "../lib/imageData";
 
 // 引入Dimensions库
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 export default class Choose extends Component {
   state = {
@@ -28,7 +28,7 @@ export default class Choose extends Component {
     var itemAry = [];
     // 遍历
     // 根据json数据实例化视图
-    for (var i = 0; i < imgAry.length; i++) {
+    for (let i = 0; i < imgAry.length; i++) {
       // 取出单个对象
       var item = imgAry[i];
       // 将子视图放进 itemAry
@@ -38,7 +38,9 @@ export default class Choose extends Component {
           key={i}
           style={styles.itemStyle}
           onPress={e => {
-            this.choose(item.name);
+            console.log(i);
+
+            this.choose(imgAry[i].name);
           }}
         >
           <Image style={styles.itemStyle} source={item.img} />
@@ -69,18 +71,6 @@ export default class Choose extends Component {
         >
           {this.renderItem()}
         </ScrollView>
-        {/* <WingBlank>
-          <Carousel
-            style={styles.spaceCarousel}
-            frameOverflow="visible"
-            cellSpacing={100}
-            slideWidth={0.8}
-            autoplay
-            infinite
-          >
-            {this.renderItem()}
-          </Carousel>
-        </WingBlank> */}
       </View>
     );
   }

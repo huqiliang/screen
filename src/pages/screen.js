@@ -23,8 +23,10 @@ export default class screen extends Component {
       <View style={{ flex: 1 }}>
         <WebView
           source={{
-            html: this.state.html
+            uri:
+              "http://gcbzg.testwebsite.gcihotel.net/order/brand?hotelCode=gcbz&code=Yello_A"
           }}
+          style={{ width: "100%", height: "100%" }}
           startInLoadingState={true}
           domStorageEnabled={true}
           javaScriptEnabled={true}
