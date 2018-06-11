@@ -9,14 +9,10 @@ export default class screen extends Component {
     };
   }
   async componentWillMount() {
-    console.log("aa");
-
     const res = await storage.load({
       key: "usedTemplate",
       autoSync: true
     });
-    console.log(res);
-
     this.setState({
       html: res
     });
