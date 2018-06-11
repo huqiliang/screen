@@ -9,8 +9,8 @@ import Screen from "./pages/screen";
 import Choose from "./pages/choose";
 
 const App = createDrawerNavigator({
-  Login: { screen: Login },
   Choose: { screen: Choose },
+  Login: { screen: Login },
   Screen: { screen: Screen },
   Main: { screen: Main }
 });

@@ -13,6 +13,7 @@ export default class screen extends Component {
       key: "usedTemplate",
       autoSync: true
     });
+
     this.setState({
       html: res
     });

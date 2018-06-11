@@ -7,15 +7,18 @@ import {
   Dimensions,
   TouchableHighlight
 } from "react-native";
+import { Toast, Modal } from "antd-mobile";
 import { imageData } from "../lib/imageData";
+
 // 引入Dimensions库
-const { width } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
 
 export default class Choose extends Component {
   state = {
     imageData: []
   };
   componentDidMount() {
+    Toast.info("Ddd", 10);
     this.setState({ imageData: imageData });
   }
   renderItem() {
@@ -66,12 +69,27 @@ export default class Choose extends Component {
         >
           {this.renderItem()}
         </ScrollView>
+        {/* <WingBlank>
+          <Carousel
+            style={styles.spaceCarousel}
+            frameOverflow="visible"
+            cellSpacing={100}
+            slideWidth={0.8}
+            autoplay
+            infinite
+          >
+            {this.renderItem()}
+          </Carousel>
+        </WingBlank> */}
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  spaceCarousel: {
+    overflow: "hidden"
+  },
   scrollViewStyle: {
     // 背景色
     width: width,
