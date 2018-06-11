@@ -9,25 +9,11 @@ import { AnimatedCircularProgress } from "react-native-circular-progress";
 const { width } = Dimensions.get("window");
 console.log(DeviceInfo.getUniqueID());
 
-const sourcePath = RNFS.DocumentDirectoryPath;
-const downloadDest = `${sourcePath}/test.txt`;
+const sourcePath = RNFS.CachesDirectoryPath;
+const downloadDest = `${sourcePath}/test.zip`;
+const unzipPath = `${sourcePath}/test`;
 
 console.log(sourcePath);
-
-// zip(sourcePath, targetPath)
-//   .then(path => {
-//     console.log(`zip completed at ${path}`);
-//   })
-//   .catch(error => {
-//     console.log(error);
-//   });
-// unzip(sourcePath, targetPath)
-//   .then(path => {
-//     console.log(`unzip completed at ${path}`);
-//   })
-//   .catch(error => {
-//     console.log(error);
-//   });
 
 export default class Login extends Component {
   constructor() {
@@ -40,6 +26,7 @@ export default class Login extends Component {
     };
   }
   async pullPage() {
+    const { navigate } = this.props.navigation;
     if (!this.state.loading) {
       this.setState({
         loading: true
@@ -49,40 +36,59 @@ export default class Login extends Component {
         let oath = await fetch(
           "http://115.159.43.44:82/api/cms/category/codeViews.json"
         );
+        console.log(oath.ok);
 
         if (!!oath.ok) {
-          // this.setState({
-          //   progressModal: true
-          // });
-          let df = await RNFS.readFile(downloadDest, "utf8");
-          console.log(df);
-
-          //this.downloadFile();
+          this.setState({
+            loading: false
+          });
+          let exitZip = await RNFS.exists(downloadDest);
+          let exitPath = await RNFS.exists(unzipPath);
+          console.log(exitZip);
+          if (!exitZip) {
+            this.downloadFile();
+            this.unZip();
+          } else {
+            if (!exitPath) {
+              this.unZip();
+            } else {
+              navigate("Choose");
+            }
+          }
+        } else {
+          alert("你没有权限");
         }
       } catch (error) {
+        console.log(error);
         alert(error);
       }
-      this.setState({
-        loading: false
-      });
     }
   }
+  unZip() {
+    unzip(downloadDest, unzipPath)
+      .then(path => {
+        console.log(`unzip completed at ${path}`);
+        navigate("Choose");
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
   downloadFile() {
-    const { navigate } = this.props.navigation;
-    const formUrl =
-      "http://online.cdn.qianqian.com/qianqian/info/1cab17a3114dab0f3cc4c66f58c6e7fc.dmg";
-
+    const formUrl = "https://www.7-zip.org/a/7za920.zip";
     const options = {
       fromUrl: formUrl,
       toFile: downloadDest,
       background: true,
       begin: res => {
+        this.setState({
+          progressModal: true
+        });
         console.log("begin", res);
         console.log("contentLength:", res.contentLength / 1024 / 1024, "M");
       },
       progress: res => {
         let pro = res.bytesWritten / res.contentLength;
-
         this.setState({
           progressNum: pro
         });
@@ -98,23 +104,6 @@ export default class Login extends Component {
           this.setState({
             progressModal: false
           });
-          navigate("Choose");
-          //alert(downloadDest);
-          // this.setState({
-          //   progressNum: 1
-          // });
-          // RNFS.readFile(downloadDest)
-          //   .then(result => {
-          //     console.log(result);
-
-          //     this.setState({
-          //       readTxtResult: result
-          //     });
-          //   })
-          //   .catch(err => {
-          //     console.log(err.message);
-          //   });
-          console.log("file://" + downloadDest);
         })
         .catch(err => {
           console.log("err", err);

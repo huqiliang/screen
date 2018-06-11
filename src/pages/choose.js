@@ -1,19 +1,17 @@
 import React, { Component } from "react";
-import { Carousel, WingBlank } from "antd-mobile";
 import {
   View,
   Image,
   StyleSheet,
   ScrollView,
   Dimensions,
-  TouchableHighlight,
-  Text
+  TouchableHighlight
 } from "react-native";
 import { imageData } from "../lib/imageData";
 // 引入Dimensions库
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
-export default class Choose extends React.Component {
+export default class Choose extends Component {
   state = {
     imageData: []
   };
@@ -50,9 +48,10 @@ export default class Choose extends React.Component {
   }
   //选择
   choose(name) {
-    const { navigate } = this.props.navigation;
     storage.save({ key: "usedTemplate", data: name });
-    navigate("Screen");
+
+    const { navigate } = this.props.navigation;
+    //navigate("Screen");
   }
   render() {
     return (

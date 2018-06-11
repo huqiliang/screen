@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { WebView, View, Text } from "react-native";
+import { WebView, View } from "react-native";
 
 export default class screen extends Component {
   constructor() {
@@ -9,10 +9,13 @@ export default class screen extends Component {
     };
   }
   async componentWillMount() {
+    console.log("aa");
+
     const res = await storage.load({
       key: "usedTemplate",
       autoSync: true
     });
+    console.log(res);
 
     this.setState({
       html: res
