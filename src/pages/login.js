@@ -2,18 +2,16 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet, Dimensions, PixelRatio } from "react-native";
 import { List, InputItem, Button, Flex, Toast, Modal } from "antd-mobile";
 import DeviceInfo from "react-native-device-info";
-import RNFS from "react-native-fs";
-import { zip, unzip } from "react-native-zip-archive";
+// import RNFS from "react-native-fs";
+// import { zip, unzip } from "react-native-zip-archive";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 
 const { width } = Dimensions.get("window");
 console.log(DeviceInfo.getUniqueID());
 
-const sourcePath = RNFS.CachesDirectoryPath;
-const downloadDest = `${sourcePath}/test.zip`;
-const unzipPath = `${sourcePath}/test`;
-
-console.log(sourcePath);
+// const sourcePath = RNFS.CachesDirectoryPath;
+// const downloadDest = `${sourcePath}/test.zip`;
+// const unzipPath = `${sourcePath}/test`;
 
 export default class Login extends Component {
   constructor() {
@@ -36,23 +34,24 @@ export default class Login extends Component {
         let oath = await fetch(
           "http://115.159.43.44:82/api/cms/category/codeViews.json"
         );
+        this.setState({
+          loading: false
+        });
         if (!!oath.ok) {
-          this.setState({
-            loading: false
-          });
-          let exitZip = await RNFS.exists(downloadDest);
-          let exitPath = await RNFS.exists(unzipPath);
-          console.log(exitZip);
-          if (!exitZip) {
-            this.downloadFile();
-            this.unZip();
-          } else {
-            if (!exitPath) {
-              this.unZip();
-            } else {
-              navigate("Choose");
-            }
-          }
+          navigate("Choose");
+          // let exitZip = await RNFS.exists(downloadDest);
+          // let exitPath = await RNFS.exists(unzipPath);
+          // console.log(exitZip);
+          // if (!exitZip) {
+          //   this.downloadFile();
+          //   this.unZip();
+          // } else {
+          //   if (!exitPath) {
+          //     this.unZip();
+          //   } else {
+          //     navigate("Choose");
+          //   }
+          // }
         } else {
           alert("你没有权限");
         }

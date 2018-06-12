@@ -8,16 +8,18 @@ import Main from "./pages/main";
 import Login from "./pages/login";
 import Screen from "./pages/screen";
 import Choose from "./pages/choose";
+import Yello_A from "./screen/Yello_A";
 
 nt.checkNetworkState(function(connect) {
-  if (connect) {
+  if (!connect) {
     Toast.info(nt.NOT_NETWORK);
   }
 });
 const App = createDrawerNavigator({
-  Screen: { screen: Screen },
+  Yello_A: { screen: Yello_A },
   Login: { screen: Login },
   Choose: { screen: Choose },
+  Screen: { screen: Screen },
   Main: { screen: Main }
 });
 

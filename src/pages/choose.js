@@ -7,7 +7,7 @@ import {
   Dimensions,
   TouchableHighlight
 } from "react-native";
-import { Toast, Modal } from "antd-mobile";
+import { Toast } from "antd-mobile";
 import { imageData } from "../lib/imageData";
 
 // 引入Dimensions库
@@ -18,7 +18,7 @@ export default class Choose extends Component {
     imageData: []
   };
   componentDidMount() {
-    Toast.info("Ddd", 10);
+    Toast.info("选择一个模版", 3);
     this.setState({ imageData: imageData });
   }
   renderItem() {
@@ -38,8 +38,6 @@ export default class Choose extends Component {
           key={i}
           style={styles.itemStyle}
           onPress={e => {
-            console.log(i);
-
             this.choose(imgAry[i].name);
           }}
         >
