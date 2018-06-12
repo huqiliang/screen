@@ -24,9 +24,9 @@ export default class yello_a extends Component {
           <View style={styles.contain}>
             <View style={styles.left}>
               <View style={styles.bottom}>
-                <Text style={styles.underTitle}>测试长度tttt</Text>
+                <Text style={styles.underTitle}>测试长度tttt测试长</Text>
+                <Text style={styles.phone}>0571-8888-9999</Text>
                 <Text style={styles.phoneText}>24小时预定热线</Text>
-                <Text style={styles.phone}>201992</Text>
               </View>
             </View>
             <View style={styles.center}>
@@ -57,14 +57,17 @@ const styles = StyleSheet.create({
     width: width * 0.3
   },
   underTitle: {
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: "800",
-    paddingBottom: 10
+    paddingBottom: 20
   },
-  phoneText: {
+  phoneText: {},
+  phone: {
     paddingTop: 10,
     borderTopWidth: 3,
-    borderTopColor: "red"
+    borderTopColor: "#dab96b",
+    fontSize: 20,
+    fontWeight: "800"
   },
   bottom: {
     position: "absolute",
