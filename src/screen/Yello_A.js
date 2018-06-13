@@ -7,12 +7,51 @@ import {
   Dimensions,
   StyleSheet
 } from "react-native";
-
 const { width, height } = Dimensions.get("window");
 import Today from "../components/today";
 import Time from "../components/time";
+import moment from "moment";
+import { hotelList } from "../server/api";
+class CenterHeader extends Component {
+  render() {
+    return (
+      <View style={styles.centerHeader}>
+        <Text style={styles.headerTh}>房型</Text>
+        {this.props.titles.map((val, i) => {
+          return (
+            <Text style={styles.headerTh} key={i}>
+              {val}
+            </Text>
+          );
+        })}
+      </View>
+    );
+  }
+}
 
 export default class yello_a extends Component {
+  async getList() {
+    console.log("bbb333");
+    let body = {
+      hotelGroupCode: "JLSJYSWJDG",
+      hotelCode: "JLSJYSWJD",
+      hotelCodes: ["JLSJYSWJD"],
+      fromDate: moment().format("YYYY-MM-DD"),
+      toDate: moment()
+        .add(1, "days")
+        .format("YYYY-MM-DD"),
+      showType: 1,
+      otaChannel: "KANBAN"
+    };
+
+    let response = await hotelList(body);
+    let responseJson = await response.json();
+    console.log(responseJson);
+    console.log("ccc");
+  }
+  componentWillMount() {
+    this.getList();
+  }
   render() {
     return (
       <View>
@@ -30,7 +69,10 @@ export default class yello_a extends Component {
               </View>
             </View>
             <View style={styles.center}>
-              <Text>ddd</Text>
+              <View style={styles.centerTop}>
+                <CenterHeader titles={[1, 2, 3]} />
+              </View>
+
               <Text style={{ color: "red", fontSize: 24 }}>
                 {" "}
                 image 嵌入 text
@@ -75,9 +117,25 @@ const styles = StyleSheet.create({
     left: 20
   },
   center: {
-    width: width * 0.5
+    width: width * 0.5,
+    paddingTop: 50
+  },
+  centerHeader: {
+    display: "flex",
+    flexDirection: "row"
+  },
+  headerTh: {
+    marginRight: 10,
+    backgroundColor: "#fff",
+    color: "#666",
+    padding: 10,
+    transform: [{ skewX: "-45deg" }]
+  },
+  "centerHeader:last-child": {
+    borderBottomWidth: 1
   },
   right: {
-    width: width * 0.5
+    width: width * 0.5,
+    paddingTop: 50
   }
 });

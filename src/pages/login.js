@@ -34,6 +34,8 @@ export default class Login extends Component {
         let oath = await fetch(
           "http://115.159.43.44:82/api/cms/category/codeViews.json"
         );
+        console.log(oath);
+
         this.setState({
           loading: false
         });
