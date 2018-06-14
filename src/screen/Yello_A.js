@@ -137,8 +137,12 @@ export default class YelloA extends Component {
             </View>
             <View style={styles.right}>
               <Today />
-              <Time />
-              <Weather />
+              <View>
+                <Time />
+              </View>
+              <View style={{ paddingTop: 10 }}>
+                <Weather />
+              </View>
             </View>
           </View>
         </ImageBackground>
