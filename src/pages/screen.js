@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { WebView, View } from "react-native";
 
-export default class screen extends Component {
+export default class Screen extends Component {
   constructor() {
     super();
     this.state = {

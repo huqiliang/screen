@@ -7,13 +7,14 @@ import {
   Dimensions,
   StyleSheet
 } from "react-native";
-const { width, height } = Dimensions.get("window");
+import _ from "lodash";
+import moment from "moment";
 import Today from "../components/today";
 import Time from "../components/time";
 import Weather from "../components/weather";
-import moment from "moment";
+import Slider from "../components/slider";
 import { hotelList } from "../server/api";
-import _ from "lodash";
+const { width, height } = Dimensions.get("window");
 
 class CenterHeader extends Component {
   render() {
@@ -46,7 +47,7 @@ class HotelList extends Component {
     );
   }
 }
-export default class yello_a extends Component {
+export default class YelloA extends Component {
   constructor() {
     super();
     this.state = {
@@ -57,8 +58,6 @@ export default class yello_a extends Component {
   }
   async getList() {
     let body = {
-      hotelGroupCode: "JLSJYSWJDG",
-      hotelCode: "JLSJYSWJD",
       hotelCodes: ["JLSJYSWJD"],
       fromDate: moment().format("YYYY-MM-DD"),
       toDate: moment()
@@ -68,11 +67,10 @@ export default class yello_a extends Component {
       otaChannel: "KANBAN"
     };
 
-    let response = await hotelList(body);
-    let responseJson = await response.json();
+    let responseJson = await hotelList(body);
     try {
-      if (responseJson && responseJson.result == 1) {
-        return responseJson.retVal[0];
+      if (responseJson && responseJson.data.result == 1) {
+        return responseJson.data.retVal[0];
       }
     } catch (error) {
       console.log(error);
@@ -88,8 +86,6 @@ export default class yello_a extends Component {
     });
   }
   render() {
-    console.log(this.state.infoExtra.logo);
-
     return (
       <View>
         <View />
@@ -105,6 +101,9 @@ export default class yello_a extends Component {
                   source={require("../static/A.png")}
                   style={styles.logo}
                 />
+              </View>
+              <View style={styles.slider}>
+                <Slider />
               </View>
               <View style={styles.bottom}>
                 <Text style={styles.underTitle}>
@@ -148,11 +147,18 @@ export default class yello_a extends Component {
   }
 }
 const styles = StyleSheet.create({
+  slider: {
+    borderWidth: 1,
+    zIndex: -1,
+    marginTop: 60,
+    height: 200
+  },
   logo: {
     width: 100,
-    height: 80,
+    height: 70,
     position: "relative",
-    left: 20
+    left: 20,
+    top: 20
   },
   contain: {
     display: "flex",

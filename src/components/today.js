@@ -14,7 +14,7 @@ const {
   moment().date()
 );
 
-export default class today extends Component {
+export default class Today extends Component {
   constructor() {
     super();
     const info = !!solarFestival ? ` ${solarFestival}` : "";

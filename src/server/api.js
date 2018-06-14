@@ -1,14 +1,20 @@
-const baseUrl = "http://115.159.43.44:82";
+const baseUrl = "http://115.159.43.44:82/api";
+const commonServer = "http://api.ihotel.cn";
+import axios from "axios";
+import _ from "lodash";
 
-export const hotelList = body => {
-  console.log(body);
+const baseOptions = {
+  hotelGroupCode: "JLSJYSWJDG",
+  hotelCode: "JLSJYSWJD"
+};
 
-  return fetch(`${baseUrl}/api/hotel/hotelListAll.json`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(body)
+export const hotelList = opt => {
+  let body = _.extend({}, baseOptions, opt);
+  return axios.post(`${baseUrl}/hotel/hotelListAll.json`, body);
+};
+
+export const weatherList = params => {
+  return axios.get(`${commonServer}/s/weather`, {
+    params
   });
 };

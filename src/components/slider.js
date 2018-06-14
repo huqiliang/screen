@@ -1,5 +1,5 @@
-import { Component } from "react";
-import { Image, ScrollView } from "react-native";
+import React, { Component } from "react";
+import { View, Text, Image, ScrollView } from "react-native";
 
 export default class slider extends Component {
   static defaultProps = {
@@ -45,5 +45,10 @@ export default class slider extends Component {
     >
       {this.renderItem()}
     </ScrollView>;
+    return (
+      <View>
+        <Text>slider</Text>
+      </View>
+    );
   }
 }
