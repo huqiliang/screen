@@ -22,7 +22,21 @@ class CenterHeader extends Component {
     if (!_.isEmpty(this.props.titles)) {
       this.props.titles.forEach((val, i) => {
         arr.push(
-          <Text style={styles.headerTh} key={i}>
+          <Text
+            style={{
+              backgroundColor: "#fff",
+              width: `${
+                _.isEmpty(this.props.titles)
+                  ? 70 / 3
+                  : 70 / this.props.titles.length
+              }%`,
+              color: "#666",
+              padding: 10,
+              textAlign: "center",
+              transform: [{ skewX: "-45deg" }]
+            }}
+            key={i}
+          >
             {val}
           </Text>
         );
@@ -31,7 +45,22 @@ class CenterHeader extends Component {
 
     return (
       <View style={styles.centerHeader}>
-        <Text style={styles.headerTh}>房型{this.props.test}</Text>
+        <Text
+          style={{
+            backgroundColor: "#fff",
+            width: `${
+              _.isEmpty(this.props.titles)
+                ? 65 / 3
+                : 65 / this.props.titles.length
+            }%`,
+            color: "#666",
+            padding: 10,
+            textAlign: "center",
+            transform: [{ skewX: "-45deg" }]
+          }}
+        >
+          房型{this.props.test}
+        </Text>
         {arr}
       </View>
     );
@@ -102,12 +131,17 @@ export default class YelloA extends Component {
             <View style={styles.left}>
               <View>
                 <Image
-                  source={require("../static/A.png")}
+                  source={{ uri: this.state.infoExtra.logo }}
                   style={styles.logo}
                 />
               </View>
               <View style={styles.slider}>
-                <Slider />
+                <Slider
+                  imageData={_.map(
+                    this.state.productRoomList,
+                    "gcRoomExtra.pictures"
+                  )}
+                />
               </View>
               <View style={styles.bottom}>
                 <Text style={styles.underTitle}>
@@ -135,7 +169,7 @@ export default class YelloA extends Component {
             </View>
             <View style={styles.right}>
               <Today />
-              <View>
+              <View style={{ width: "75%" }}>
                 <Time />
               </View>
               <View style={{ paddingTop: 10 }}>
@@ -150,7 +184,6 @@ export default class YelloA extends Component {
 }
 const styles = StyleSheet.create({
   slider: {
-    borderWidth: 1,
     zIndex: -1,
     marginTop: 60,
     height: 200
@@ -201,9 +234,8 @@ const styles = StyleSheet.create({
     width: "100%"
   },
   firstItem: {
-    width: "12%",
+    width: "33%",
     fontWeight: "800",
-    marginLeft: "12%",
     borderBottomWidth: 1,
     height: 45,
     lineHeight: 45,
@@ -224,19 +256,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start"
   },
-  headerTh: {
-    //backgroundColor: "#fff",
-    width: "33.33%",
-    color: "#666",
-    padding: 10,
-    textAlign: "center",
-    transform: [{ skewX: "-45deg" }]
-  },
   "centerHeader:last-child": {
     borderBottomWidth: 1
   },
   right: {
-    width: width * 0.5,
+    width: width * 0.25,
     paddingTop: 50
   }
 });

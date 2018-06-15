@@ -10,6 +10,9 @@ export default class Time extends Component {
       interval: null
     };
   }
+  static defaultProps = {
+    textAlign: "right"
+  };
   componentWillMount() {
     this.interval = setInterval(() => {
       this.setState({
@@ -25,15 +28,17 @@ export default class Time extends Component {
   render() {
     return (
       <View>
-        <Text style={styles.time}>{this.state.time}</Text>
+        <Text
+          style={{
+            fontSize: 28,
+            fontWeight: "800",
+            color: "#666",
+            textAlign: this.props.textAlign
+          }}
+        >
+          {this.state.time}
+        </Text>
       </View>
     );
   }
 }
-const styles = StyleSheet.create({
-  time: {
-    fontSize: 28,
-    fontWeight: "800",
-    color: "#666"
-  }
-});

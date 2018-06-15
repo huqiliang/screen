@@ -23,11 +23,18 @@ export default class Today extends Component {
       zodInfo: `${GanZhiYear}年${lunarMonthName}${lunarDayName}${info}`
     };
   }
+  static defaultProps = {
+    textAlign: "center"
+  };
   render() {
     return (
       <View>
-        <Text>{this.state.today}</Text>
-        <Text>{this.state.zodInfo}</Text>
+        <Text style={{ textAlign: this.props.textAlign }}>
+          {this.state.today}
+        </Text>
+        <Text style={{ textAlign: this.props.textAlign, paddingTop: 5 }}>
+          {this.state.zodInfo}
+        </Text>
       </View>
     );
   }

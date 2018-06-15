@@ -1,15 +1,22 @@
 import React, { Component } from "react";
-import { View, Text, Image, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableHighlight
+} from "react-native";
+import { Carousel } from "antd-mobile";
 
 export default class slider extends Component {
   static defaultProps = {
-    imageData: []
+    imageData: [],
+    itemWidth: 300,
+    itemHeight: 200
   };
   renderItem() {
-    // 数组
-    // 获取json中图片
-    var imgAry = this.props.imageData;
     var itemAry = [];
+    const { imageData: imgAry, itemWidth, itemHeight } = this.props;
     // 遍历
     // 根据json数据实例化视图
     for (let i = 0; i < imgAry.length; i++) {
@@ -18,15 +25,13 @@ export default class slider extends Component {
       // 将子视图放进 itemAry
       itemAry.push(
         // 实例化子视图
-        <View
+        <Image
           key={i}
-          style={styles.itemStyle}
-          onPress={e => {
-            this.choose(imgAry[i].name);
+          style={{ width: itemWidth, height: itemHeight }}
+          source={{
+            uri: item
           }}
-        >
-          <Image style={styles.itemStyle} source={item.img} />
-        </View>
+        />
       );
     }
 
@@ -34,21 +39,22 @@ export default class slider extends Component {
     return itemAry;
   }
   render() {
-    <ScrollView
-      // style={styles.scrollViewStyle}
-      horizontal={true} // 水平方向
-      showsHorizontalScrollIndicator={false} // 隐藏水平指示器
-      showsVerticalScrollIndicator={false} // 隐藏垂直指示器
-      pagingEnabled={true} // 开启分页功能
-      alwaysBounceHorizontal={false}
-      snapToAlignment="center"
-    >
-      {this.renderItem()}
-    </ScrollView>;
     return (
-      <View>
-        <Text>slider</Text>
-      </View>
+      <Carousel
+        style={styles.wrapper}
+        infinite
+        autoplay={true}
+        autoplayTimeout={3}
+      >
+        {this.renderItem()}
+      </Carousel>
     );
   }
 }
+const styles = StyleSheet.create({
+  scrollViewStyle: {
+    // 背景色
+    width: "100%",
+    height: "100%"
+  }
+});
