@@ -40,11 +40,16 @@ class CenterHeader extends Component {
 class HotelList extends Component {
   render() {
     let arr = [];
-    return (
-      <View>
-        <Text>dd</Text>
-      </View>
-    );
+    _.map(this.props.list, (val, index) => {
+      arr.push(
+        <View key={index} style={styles.hotelList}>
+          <Text style={styles.firstItem}>{val.roomDescript}</Text>
+          <Text style={styles.itemHotel}>¥{val.roomRacPrice}</Text>
+          <Text style={styles.itemHotel}>¥{val.roomMinPriceWithPromotion}</Text>
+        </View>
+      );
+    });
+    return <View>{arr}</View>;
   }
 }
 export default class YelloA extends Component {
@@ -88,7 +93,6 @@ export default class YelloA extends Component {
   render() {
     return (
       <View>
-        <View />
         <ImageBackground
           style={{ height, width }}
           source={require("../static/bg/Yello_A.png")}
@@ -126,14 +130,8 @@ export default class YelloA extends Component {
                 ) : (
                   <CenterHeader />
                 )}
-
-                <HotelList list={this.state.productRoomList} />
               </View>
-
-              <Text style={{ color: "red", fontSize: 24 }}>
-                {" "}
-                image 嵌入 text
-              </Text>
+              <HotelList list={this.state.productRoomList} />
             </View>
             <View style={styles.right}>
               <Today />
@@ -141,7 +139,7 @@ export default class YelloA extends Component {
                 <Time />
               </View>
               <View style={{ paddingTop: 10 }}>
-                <Weather />
+                <Weather days={3} />
               </View>
             </View>
           </View>
@@ -197,16 +195,41 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     paddingRight: "5%"
   },
+  hotelList: {
+    display: "flex",
+    flexDirection: "row",
+    width: "100%"
+  },
+  firstItem: {
+    width: "12%",
+    fontWeight: "800",
+    marginLeft: "12%",
+    borderBottomWidth: 1,
+    height: 45,
+    lineHeight: 45,
+    borderBottomColor: "#666",
+    fontSize: 16
+  },
+  itemHotel: {
+    width: (width * 0.5) / 3.3,
+    textAlign: "center",
+    height: 45,
+    lineHeight: 45,
+    borderBottomWidth: 1,
+    borderBottomColor: "#666",
+    fontSize: 16
+  },
   centerHeader: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "flex-start"
   },
   headerTh: {
-    marginRight: 10,
-    backgroundColor: "#fff",
+    //backgroundColor: "#fff",
+    width: "33.33%",
     color: "#666",
     padding: 10,
+    textAlign: "center",
     transform: [{ skewX: "-45deg" }]
   },
   "centerHeader:last-child": {
