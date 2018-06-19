@@ -17,7 +17,7 @@ export default class Choose extends Component {
   state = {
     imageData: []
   };
-  componentDidMount() {
+  componentWillMount() {
     Toast.info("选择一个模版", 3);
     this.setState({ imageData: imageData });
   }

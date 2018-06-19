@@ -1,5 +1,6 @@
-const baseUrl = "http://115.159.43.44:82/api";
+const dsptServer = "http://115.159.43.44:82/api";
 const commonServer = "http://api.ihotel.cn";
+
 import axios from "axios";
 import _ from "lodash";
 
@@ -10,7 +11,7 @@ const baseOptions = {
 
 export const hotelList = opt => {
   let body = _.extend({}, baseOptions, opt);
-  return axios.post(`${baseUrl}/hotel/hotelListAll.json`, body);
+  return axios.post(`${dsptServer}/hotel/hotelListAll.json`, body);
 };
 
 export const weatherList = params => {

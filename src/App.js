@@ -17,11 +17,11 @@ nt.checkNetworkState(function(connect) {
   }
 });
 const App = createDrawerNavigator({
+  Screen: { screen: Screen },
   config: { screen: Config },
-  Yello_A: { screen: Yello_A },
   Login: { screen: Login },
   Choose: { screen: Choose },
-  Screen: { screen: Screen },
+  Yello_A: { screen: Yello_A },
   Main: { screen: Main }
 });
 

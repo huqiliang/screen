@@ -7,6 +7,7 @@ import {
   Dimensions,
   StyleSheet
 } from "react-native";
+import { Carousel } from "antd-mobile";
 import _ from "lodash";
 import moment from "moment";
 import Today from "../components/today";
@@ -89,7 +90,8 @@ export default class YelloA extends Component {
     this.state = {
       hotelInfo: {},
       productRoomList: [],
-      infoExtra: {}
+      infoExtra: {},
+      pageSize: 4
     };
   }
   async getList() {
@@ -122,6 +124,15 @@ export default class YelloA extends Component {
     });
   }
   render() {
+    const { productRoomList, pageSize } = this.state;
+    // let list = [];
+    // _.map(productRoomList, val => {
+    //   if (val % pageSize == 0 && val != 0) {
+    //     list.push(_.slice(productRoomList), val, pageSize * val);
+    //   }
+    // });
+    // const list =
+    //   productRoomList.length > pageSize ? productRoomList : productRoomList;
     return (
       <View>
         <ImageBackground
@@ -167,7 +178,12 @@ export default class YelloA extends Component {
                   <CenterHeader />
                 )}
               </View>
-              <HotelList list={this.state.productRoomList} />
+              <Carousel autoplay={true} infinite>
+                <View>
+                  <HotelList list={this.state.productRoomList} />
+                  <Text>第一页</Text>
+                </View>
+              </Carousel>
             </View>
             <View style={styles.right}>
               <Today />

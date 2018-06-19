@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import { View, Text, Switch, StyleSheet } from "react-native";
-import { List, Picker, Modal, TextareaItem, Button, Flex } from "antd-mobile";
+import {
+  List,
+  Picker,
+  Modal,
+  TextareaItem,
+  Button,
+  Flex,
+  InputItem
+} from "antd-mobile";
 const Item = List.Item;
 
 export default class Config extends Component {
@@ -129,15 +137,13 @@ export default class Config extends Component {
               显示天气天数
             </List.Item>
           </Picker>
-          {/* <Item
+          <Item
             arrow="horizontal"
             platform="android"
-            onClick={() => {
-              this.setState({ logoModal: true });
-            }}
+            extra={<InputItem placeholder="start from left" />}
           >
-            酒店标题
-          </Item> */}
+            400电话
+          </Item>
         </List>
         <Flex style={styles.buttons}>
           <Flex.Item
@@ -159,33 +165,6 @@ export default class Config extends Component {
             </Button>
           </Flex.Item>
         </Flex>
-
-        <Modal
-          visible={this.state.logoModal}
-          transparent
-          maskClosable={false}
-          // onClose={this.onClose("modal1")}
-          title="酒店标题"
-          footer={[
-            {
-              text: "Ok",
-              onPress: () => {
-                this.setState({
-                  logoModal: false
-                });
-              }
-            }
-          ]}
-          // wrapProps={{ onTouchStart: this.onWrapTouchStart }}
-        >
-          <TextareaItem
-            title="标题"
-            placeholder="auto focus in Alipay client"
-            data-seed="logId"
-            ref={el => (this.autoFocusInst = el)}
-            autoHeight
-          />
-        </Modal>
       </View>
     );
   }
