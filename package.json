@@ -20,7 +20,8 @@
     "react-native-fs": "^2.9.12",
     "react-native-storage": "^0.2.2",
     "react-native-zip-archive": "^2.2.5",
-    "react-navigation": "^2.0.4"
+    "react-navigation": "^2.0.4",
+    "url": "^0.11.0"
   },
   "devDependencies": {
     "babel-jest": "23.0.1",

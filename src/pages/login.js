@@ -17,11 +17,27 @@ export default class Login extends Component {
   constructor() {
     super();
     this.state = {
-      hotelCode: "GCBZG",
+      hotelCode: "",
+      hotelGroupCode: "",
       loading: false,
       progressNum: 0,
       progressModal: false
     };
+  }
+  async componentWillMount() {
+    console.log("====================================");
+    console.log("aaa");
+    console.log("====================================");
+    let res = await storage.load({
+      key: "GHCODE"
+    });
+    console.log("====================================");
+    console.log(res);
+    console.log("====================================");
+    this.setState({
+      hotelGroupCode: res.hotelGroupCode,
+      hotelCode: res.hotelCode
+    });
   }
   async pullPage() {
     const { navigate } = this.props.navigation;
@@ -40,20 +56,14 @@ export default class Login extends Component {
           loading: false
         });
         if (!!oath.ok) {
+          storage.save({
+            key: "GHCODE",
+            data: {
+              hotelGroupCode: this.state.hotelGroupCode,
+              hotelCode: this.state.hotelCode
+            }
+          });
           navigate("Choose");
-          // let exitZip = await RNFS.exists(downloadDest);
-          // let exitPath = await RNFS.exists(unzipPath);
-          // console.log(exitZip);
-          // if (!exitZip) {
-          //   this.downloadFile();
-          //   this.unZip();
-          // } else {
-          //   if (!exitPath) {
-          //     this.unZip();
-          //   } else {
-          //     navigate("Choose");
-          //   }
-          // }
         } else {
           alert("你没有权限");
         }
@@ -123,6 +133,23 @@ export default class Login extends Component {
     };
     return (
       <View style={styles.container}>
+        <List style={styles.listFirst}>
+          <InputItem
+            labelNumber="5"
+            style={styles.input}
+            clear
+            focus
+            placeholder="请输入酒店代码"
+            value={this.state.hotelGroupCode}
+            onChange={value => {
+              this.setState({
+                hotelGroupCode: value
+              });
+            }}
+          >
+            集团代码:
+          </InputItem>
+        </List>
         <List style={styles.list}>
           <InputItem
             labelNumber="5"
@@ -194,11 +221,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#F5FCFF"
   },
-  list: {
+  listFirst: {
     width: "50%",
     borderColor: "#ccc",
     borderRadius: 1 / PixelRatio.get(),
     borderWidth: 1 / PixelRatio.get()
+  },
+  list: {
+    width: "50%",
+    borderColor: "#ccc",
+    borderRadius: 1 / PixelRatio.get(),
+    borderWidth: 1 / PixelRatio.get(),
+    marginTop: 10
   },
   input: {
     width: "100%",
