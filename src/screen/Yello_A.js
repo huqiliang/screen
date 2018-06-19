@@ -27,11 +27,12 @@ class CenterHeader extends Component {
               backgroundColor: "#fff",
               width: `${
                 _.isEmpty(this.props.titles)
-                  ? 70 / 3
-                  : 70 / this.props.titles.length
+                  ? 54 / 3 - 10
+                  : 54 / this.props.titles.length - 10
               }%`,
               color: "#666",
               padding: 10,
+              marginRight: "10%",
               textAlign: "center",
               transform: [{ skewX: "-45deg" }]
             }}
@@ -50,11 +51,12 @@ class CenterHeader extends Component {
             backgroundColor: "#fff",
             width: `${
               _.isEmpty(this.props.titles)
-                ? 65 / 3
-                : 65 / this.props.titles.length
+                ? 60 / 3 - 10
+                : 60 / this.props.titles.length - 10
             }%`,
             color: "#666",
-            padding: 10,
+            paddingTop: 10,
+            marginRight: "10%",
             textAlign: "center",
             transform: [{ skewX: "-45deg" }]
           }}
@@ -239,6 +241,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     height: 45,
     lineHeight: 45,
+    paddingLeft: 20,
     borderBottomColor: "#666",
     fontSize: 16
   },
