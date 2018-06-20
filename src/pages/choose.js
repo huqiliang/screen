@@ -18,7 +18,7 @@ export default class Choose extends Component {
     imageData: []
   };
   componentWillMount() {
-    Toast.info("选择一个模版", 3);
+    Toast.info("按左右方向 选择一个模版", 1);
     this.setState({ imageData: imageData });
   }
   renderItem() {

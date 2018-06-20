@@ -25,15 +25,9 @@ export default class Login extends Component {
     };
   }
   async componentWillMount() {
-    console.log("====================================");
-    console.log("aaa");
-    console.log("====================================");
     let res = await storage.load({
       key: "GHCODE"
     });
-    console.log("====================================");
-    console.log(res);
-    console.log("====================================");
     this.setState({
       hotelGroupCode: res.hotelGroupCode,
       hotelCode: res.hotelCode
@@ -131,6 +125,7 @@ export default class Login extends Component {
     const title = () => {
       return <Text style={{ color: "#ffffff" }}>正在下载 请稍候</Text>;
     };
+
     return (
       <View style={styles.container}>
         <List style={styles.listFirst}>
@@ -139,7 +134,7 @@ export default class Login extends Component {
             style={styles.input}
             clear
             focus
-            placeholder="请输入酒店代码"
+            placeholder="请输入集团代码"
             value={this.state.hotelGroupCode}
             onChange={value => {
               this.setState({
