@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { WebView, View, Text } from "react-native";
 import url from "url";
+
 export default class Screen extends Component {
   constructor() {
     super();
@@ -21,30 +22,32 @@ export default class Screen extends Component {
     });
     let resList = await Promise.all([tpl, code]);
     const [res, codeRes] = resList;
-    console.log("====================================");
-    console.log(codeRes);
-    console.log("====================================");
     this.setState({
       code: res,
       ...codeRes
     });
   }
-
+  injectJS = () => {
+    // const script = "alert($)"; // eslint-disable-line quotes
+    // if (this.webview) {
+    //   this.webview.injectJavaScript(script);
+    // }
+  };
   render() {
     const href = url.format({
       protocol: "http",
-      host: "www.ihotel.cn",
+      host: "jlsjyswjdg.gcihotel.net",
       pathname: "/order/brand",
       query: {
         ...this.state
       }
     });
-    console.log("====================================");
-    console.log(href);
-    console.log("====================================");
     return (
       <View style={{ flex: 1 }}>
         <WebView
+          ref={webview => {
+            this.webview = webview;
+          }}
           source={{
             uri: href
           }}
@@ -52,6 +55,7 @@ export default class Screen extends Component {
           startInLoadingState={true}
           domStorageEnabled={true}
           javaScriptEnabled={true}
+          onLoadEnd={this.injectJS}
         />
       </View>
     );
