@@ -53,7 +53,7 @@ export default class Choose extends Component {
   choose(name) {
     storage.save({ key: "usedTemplate", data: name });
     const { navigate } = this.props.navigation;
-    navigate("Screen");
+    navigate("房价屏");
   }
   render() {
     return (

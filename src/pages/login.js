@@ -2,16 +2,10 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet, Dimensions, PixelRatio } from "react-native";
 import { List, InputItem, Button, Flex, Toast, Modal } from "antd-mobile";
 import DeviceInfo from "react-native-device-info";
-// import RNFS from "react-native-fs";
-// import { zip, unzip } from "react-native-zip-archive";
-import { AnimatedCircularProgress } from "react-native-circular-progress";
+// import { AnimatedCircularProgress } from "react-native-circular-progress";
 
 const { width } = Dimensions.get("window");
 console.log(DeviceInfo.getUniqueID());
-
-// const sourcePath = RNFS.CachesDirectoryPath;
-// const downloadDest = `${sourcePath}/test.zip`;
-// const unzipPath = `${sourcePath}/test`;
 
 export default class Login extends Component {
   constructor() {
@@ -49,6 +43,9 @@ export default class Login extends Component {
         this.setState({
           loading: false
         });
+        console.log("====================================");
+        console.log(oath);
+        console.log("====================================");
         if (!!oath.ok) {
           storage.save({
             key: "GHCODE",
@@ -57,7 +54,7 @@ export default class Login extends Component {
               hotelCode: this.state.hotelCode
             }
           });
-          navigate("Choose");
+          navigate("模版选择");
         } else {
           alert("你没有权限");
         }
@@ -67,60 +64,6 @@ export default class Login extends Component {
       }
     }
   }
-  unZip() {
-    unzip(downloadDest, unzipPath)
-      .then(path => {
-        console.log(`unzip completed at ${path}`);
-        navigate("Choose");
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-  downloadFile() {
-    const formUrl = "http://localhost";
-    const options = {
-      fromUrl: formUrl,
-      toFile: downloadDest,
-      background: true,
-      begin: res => {
-        this.setState({
-          progressModal: true
-        });
-        console.log("begin", res);
-        console.log("contentLength:", res.contentLength / 1024 / 1024, "M");
-      },
-      progress: res => {
-        let pro = res.bytesWritten / res.contentLength;
-        this.setState({
-          progressNum: pro
-        });
-      }
-    };
-    try {
-      console.log(options);
-
-      const ret = RNFS.downloadFile(options);
-      ret.promise
-        .then(res => {
-          console.log("success", res);
-          this.setState({
-            progressModal: false
-          });
-        })
-        .catch(err => {
-          console.log("err", err);
-        });
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  // onClose(name) {
-  //   this.setState({
-  //     [name]: false
-  //   });
-  // }
   render() {
     const title = () => {
       return <Text style={{ color: "#ffffff" }}>正在下载 请稍候</Text>;
@@ -174,7 +117,7 @@ export default class Login extends Component {
             </Text>
           </Button>
         </View>
-        <Modal
+        {/* <Modal
           style={styles.modalStyle}
           visible={this.state.progressModal}
           transparent
@@ -200,7 +143,7 @@ export default class Login extends Component {
               )}
             </AnimatedCircularProgress>
           </View>
-        </Modal>
+        </Modal> */}
       </View>
     );
   }
